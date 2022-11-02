@@ -1,20 +1,27 @@
 from matplotlib import pyplot as plt
 from datos import Datos as d
+import sympy as s
 
-# x, y = d.medido()
+def main():    
+    # x, y = d.medido()
 
-# plt.plot(x,y)
-# plt.show()
+    # plt.plot(x,y)
+    # plt.show()
 
-x, y = d.modelo()
+    x, y = d.modelo()
 
-# plt.plot(x,y)
-# plt.show()
+    # plt.plot(x,y)
+    # plt.show()
+    x=[1,2,3,4]
+    y=[-2,1,6,13]
+
+    coeficientes = diferenciasDivididas(x,y)
+    polinomio(coeficientes,x)
 
 def diferenciasDivididas(x,y):
     dD = []
-    tIndep = []
-    tIndep.append(y[0])
+    coef = []
+    coef.append(y[0])
     
     for j in range(len(x)-1):
         if(j == 0):
@@ -28,8 +35,32 @@ def diferenciasDivididas(x,y):
                 
                 dD1.append(valor)
             dD = dD1
-        tIndep.append(dD[0])
+        coef.append(dD[0])
     #print(tIndep)
-    return tIndep
+    return coef
 
-terminosIndep = diferenciasDivididas(x,y)
+def polinomio(coef,px):
+    
+    x = s.Symbol('x')
+    expresion = ''
+    for i in range(len(coef)):
+        if(i==0):
+            expresion=expresion+str(coef[i])#Agrega el TI
+        else:
+            if coef[i]>0:
+                expresion=expresion+'+'+str(coef[i])#Agrega el Coeficiente
+                for j in range(i):#Agrega los(x-xa)
+                    expresion=expresion+'*(x-'+str(px[j])+')'
+            elif coef[i]<0:
+                expresion=expresion+str(coef[i])#Agrega el Coeficiente
+                for j in range(i):#Agrega los(x-xa)
+                    expresion=expresion+'*(x-'+str(px[j])+')'
+            else:
+                expresion=expresion+'+0'
+        
+    print(expresion)
+    
+    s.plot(expresion)   
+
+
+main()
