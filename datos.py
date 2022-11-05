@@ -1,5 +1,4 @@
 class Datos(object):
-    modelo = []
     @classmethod
     def medido(self):
         x = []
@@ -11,6 +10,17 @@ class Datos(object):
                 medido.append(self.parsefloat(t[2])) 
             f.close()
         return [x,medido]
+    @classmethod
+    def modeloDerivadas(self):
+        x = []
+        modelo = []
+        with open('Potencial de acción modelo derivadas.txt') as f:
+            for l in f:
+                t = l.partition(';')
+                x.append(self.parsefloat(t[0]))
+                modelo.append(self.parsefloat(t[2]))
+            f.close()
+        return [x,modelo]
     @classmethod
     def modelo(self):
         x = []

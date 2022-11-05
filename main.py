@@ -1,18 +1,26 @@
 from matplotlib import pyplot as plt
 from datos import Datos as d
+import numpy as np
 import sympy as s
+import scipy.interpolate as interpol
 
 def main():
-    x, y = d.modelo()
-    # x, y = d.medido()
     
-    # x=[0.4,0.8,1,1]
-    # y=[-70,-69.72,-65.78,-65.78]
+    splines()
+    
 
-    seleccionIntervalos(x,y)
-    # mostrarFuncion(x,y)
-    # diferenciasDivididas(x,y,1)
+    # x, y = d.modeloDerivadas()
+    # seleccionIntervalos(x,y)
 
+def splines():
+    x,y = d.modelo()
+    z=interpol.splrep(x,y)
+
+    arreglo=np.arange(x[0],x[-1],33.3e-6)#No se si esta bien eso
+    zn=interpol.splev(arreglo,z)
+    plt.plot(x,y,marker='o',markerfacecolor='blue',linestyle='None')
+    plt.plot(arreglo,zn,color='red')
+    plt.show()
 
 def seleccionIntervalos(px,py):
     x = s.Symbol('x')
@@ -114,7 +122,6 @@ def diferenciasDivididas(x,y,n):
     expresion=polinomio(coef,x)
     return expresion
 
-
 def polinomio(coef,px):
     x = s.Symbol('x')
     expresion = ''
@@ -133,7 +140,7 @@ def polinomio(coef,px):
             else:
                 expresion=expresion#Deberia agregar 0 pero no aporta nada
         
-    print(expresion)
+    #print(expresion)
     return expresion
 
 def seleccion(x):
