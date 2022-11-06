@@ -5,21 +5,28 @@ import sympy as s
 import scipy.interpolate as interpol
 
 def main():
-    
-    splines()
-    
+    #Polinomio global(Horrible)    
+    # x, y = d.modelo()
+    # exp=diferenciasDivididas(x,y,0)
+    # s.plot(exp)
 
+    #Polinomio no-global
     # x, y = d.modeloDerivadas()
     # seleccionIntervalos(x,y)
 
+    splines()
+
 def splines():
     x,y = d.modelo()
-    z=interpol.splrep(x,y)
+    z=interpol.splrep(x,y,k=3)
+    #z2=interpol.splrep(x,y, k=5)
 
     arreglo=np.arange(x[0],x[-1],33.3e-6)#No se si esta bien eso
     zn=interpol.splev(arreglo,z)
+    #z3=interpol.splev(arreglo,z2)
     plt.plot(x,y,marker='o',markerfacecolor='blue',linestyle='None')
     plt.plot(arreglo,zn,color='red')
+    #plt.plot(arreglo,z3,color='green')
     plt.show()
 
 def seleccionIntervalos(px,py):
@@ -157,11 +164,11 @@ def seleccion(x):
     iX11=[]
     
     #SELECCIONAMOS PUNTOS DE CADA INTERVALO#
-    # puntos x = 0; 0,4 -->Linear
+    # puntos x = 0; 0,4
     iX1.append(x[0])
     iX1.append(x[1])
     
-    # puntos x = 0,4; 0,8 ; 1 -->Linear
+    # puntos x = 0,4; 0,8 ; 1
     iX2.append(x[1])#Agrego para restringir derivada en 0,4
     iX2.append(x[2])
     iX2.append(x[3])
